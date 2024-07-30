@@ -2,7 +2,10 @@
 
 namespace App\Controller\Front;
 
+use App\Repository\ProductRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -10,18 +13,22 @@ use Symfony\Component\Routing\Attribute\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(): Response
+    public function index(ProductRepository $repository, Request $request): Response
     {
+        $pagination = $repository->paginateProduct($request->query->getInt('page', 1));
+
         return $this->render('front/home/index.html.twig', [
-            'controller_name' => 'HomeController',
+            'products' => $pagination,
         ]);
     }
 
-    #[Route('/afficher', name: 'show')]
-    public function show(): Response
+    #[Route('/detail/{slug}', name: 'show')]
+    public function show(ProductRepository $repository, string $slug): Response
     {
+        $product = $repository->findOneBy(['slug' => $slug]);
+
         return $this->render('front/home/show.html.twig', [
-            'controller_name' => 'HomeController',
+            'product' => $product,
         ]);
     }
 }
