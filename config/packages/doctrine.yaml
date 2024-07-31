@@ -23,7 +23,7 @@ doctrine:
                 prefix: 'App\Entity'
                 alias: App
         controller_resolver:
-            auto_mapping: false
+            auto_mapping: true # true si je veux details avec slug et non pas l'id
 
 when@test:
     doctrine:

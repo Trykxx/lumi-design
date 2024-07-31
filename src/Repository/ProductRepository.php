@@ -54,4 +54,13 @@ class ProductRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function findWithCategory(string $slug): ?Product
+    {
+        return $this->createQueryBuilder('p') // transforme un objet en requete sql pour Product
+            ->innerJoin('p.category', 'c') // Left join avec Category
+            ->where('p.slug = :slug') // condition, :
+            ->setParameter('slug', $slug) // on definit la valeur du parametre slug
+            ->getQuery() // execute la requete
+            ->getOneOrNullResult(); // retourne le resultat ou null si il ne l'est pas
+    }
 }

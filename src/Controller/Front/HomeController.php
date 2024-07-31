@@ -2,6 +2,7 @@
 
 namespace App\Controller\Front;
 
+use App\Entity\Product;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,11 +23,19 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/detail/{slug}', name: 'show')]
+    // #[Route('/detail/{slug}', name: 'show')]
+    // public function show(ProductRepository $repository, string $slug): Response
+    // {
+    //     $product = $repository->findOneBy(['slug' => $slug]);
+
+    //     return $this->render('front/home/show.html.twig', [
+    //         'product' => $product,
+    //     ]);
+    // }
+    #[Route('/detail/{slug}', name: 'show', methods:['GET'])]
     public function show(ProductRepository $repository, string $slug): Response
     {
-        $product = $repository->findOneBy(['slug' => $slug]);
-
+        $product = $repository->findWithCategory($slug);
         return $this->render('front/home/show.html.twig', [
             'product' => $product,
         ]);

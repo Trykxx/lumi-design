@@ -1,25 +1,31 @@
 {% extends 'front/base.html.twig' %}
 
 {% block title %}
-    {{ parent() }}
-    Détails du produit
+	{{ parent() }}
+	Détails du produit
 {% endblock %}
 
 {% block body %}
-    <h1>Détails du produit</h1>
+	{% if product is not null %}
 
-    <div class="product-details">
-        <div class="card" style="width: 100%;">
-            <img src="{{ product.image }}" class="card-img-top" alt="{{ product.name }}">
-            <div class="card-body">
-                <h2 class="card-title">{{ product.name|default('Nom du produit') }}</h2>
-                <p class="card-text">{{ product.description|default('Description non disponible') }}</p>
-                <p class="card-text"><strong>Prix :</strong> {{ product.price|default('Prix non disponible') }} €</p>
-                <p class="card-text"><strong>Catégorie :</strong> {{ product.category.name|default('Catégorie non disponible') }}</p>
-                <p class="card-text"><strong>Référence :</strong> {{ product.reference|default('Référence non disponible') }}</p>
-                <a href="{{ path('front_home_index') }}" class="btn btn-primary">Retour à l'accueil</a>
-            </div>
-        </div>
-    </div>
+		<h1>Détails du produit</h1>
+
+		<div class="product-details">
+			<div class="card" style="width: 100%;">
+				<img src="{{ product.image }}" class="card-img-top" alt="{{ product.name }}">
+				<div class="card-body">
+					<h2 class="card-title">{{ product.name|default('Nom du produit') }}</h2>
+					<p class="card-text">{{ product.description|default('Description non disponible') }}</p>
+					<p class="card-text">
+						<strong>Prix :</strong>
+						{{ product.price ?? '10.99' }}€</p>
+					<p class="card-text">
+						<strong>Catégorie :</strong>
+						{{ product.category.name ?? 'N/A' }}</p>
+
+					<a href="{{ path('front_home_index') }}" class="btn btn-primary">Retour à l'accueil</a>
+				</div>
+			</div>
+		</div>
+	{% endif %}
 {% endblock %}
-
