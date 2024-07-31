@@ -29,7 +29,25 @@ class ProductRepository extends ServiceEntityRepository
             10
         );
     }
+    public function paginateProductOrderByUpdatedAt(int $page): PaginationInterface
+    {
+        return $this->paginator->paginate(
+            $this->createQueryBuilder('p')
+            ->orderBy('p.updatedAt', 'DESC'),
+            $page,
+            10
+        );
+    }
 
+    public function findWithCategory(string $slug): ?Product
+    {
+        return $this->createQueryBuilder('p') // transforme un objet en requete sql pour Product
+            ->innerJoin('p.category', 'c') // Left join  // inner join va recuperer si ya concordance des deux tables
+            ->where('p.slug = :slug') // condition, :
+            ->setParameter('slug', $slug) // on definit la valeur du parametre slug
+            ->getQuery() // execute la requete
+            ->getOneOrNullResult(); // retourne le resultat ou null si il ne l'est pas
+    }
     //    /**
     //     * @return Product[] Returns an array of Product objects
     //     */
@@ -54,13 +72,4 @@ class ProductRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function findWithCategory(string $slug): ?Product
-    {
-        return $this->createQueryBuilder('p') // transforme un objet en requete sql pour Product
-            ->innerJoin('p.category', 'c') // Left join avec Category
-            ->where('p.slug = :slug') // condition, :
-            ->setParameter('slug', $slug) // on definit la valeur du parametre slug
-            ->getQuery() // execute la requete
-            ->getOneOrNullResult(); // retourne le resultat ou null si il ne l'est pas
-    }
 }

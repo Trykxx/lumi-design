@@ -16,26 +16,18 @@ class HomeController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(ProductRepository $repository, Request $request): Response
     {
-        $pagination = $repository->paginateProduct($request->query->getInt('page', 1));
+        $pagination = $repository->paginateProductOrderByUpdatedAt($request->query->getInt('page', 1));
 
         return $this->render('front/home/index.html.twig', [
             'products' => $pagination,
         ]);
     }
 
-    // #[Route('/detail/{slug}', name: 'show')]
-    // public function show(ProductRepository $repository, string $slug): Response
-    // {
-    //     $product = $repository->findOneBy(['slug' => $slug]);
-
-    //     return $this->render('front/home/show.html.twig', [
-    //         'product' => $product,
-    //     ]);
-    // }
     #[Route('/detail/{slug}', name: 'show', methods:['GET'])]
     public function show(ProductRepository $repository, string $slug): Response
     {
         $product = $repository->findWithCategory($slug);
+
         return $this->render('front/home/show.html.twig', [
             'product' => $product,
         ]);
