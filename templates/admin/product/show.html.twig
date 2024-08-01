@@ -12,7 +12,11 @@
 
 		<div class="product-details">
 			<div class="card" style="width: 100%;">
-				<img src="{{ product.image }}" class="card-img-top" alt="{{ product.name }}">
+				{% if product.image starts with 'http' %}
+					<img src="{{ product.image}}" class="card-img-top" alt="{{'image de : ' ~ product.name }}">
+				{% else %}
+					<img src="{{ vich_uploader_asset(product, 'imageFile') }}" class="card-img-top" alt="{{'image de : ' ~ product.name }}">
+				{% endif %}
 				<div class="card-body">
 					<h2 class="card-title">{{ product.name|default('Nom du produit') }}</h2>
 					<p class="card-text">{{ product.description|default('Description non disponible') }}</p>
@@ -26,6 +30,13 @@
 					<a href={{ path('admin_product_index') }} class="btn btn-primary">Retour au Dashboard</a>
 				</div>
 			</div>
+		</div>
+		<div class='d-flex m-auto'>
+			<a href={{ path('admin_product_update', { 'slug': product.slug } )}} class='btn btn-primary'>Modifier</a>
+			<form action={{ path('admin_product_delete', { 'id':product.id } )}} method="POST">
+				<input type="hidden" name="_method" value="DELETE">
+				<input type="submit" class="btn btn-danger" value="Supprimer">
+			</form>
 		</div>
 	{% endif %}
 {% endblock %}

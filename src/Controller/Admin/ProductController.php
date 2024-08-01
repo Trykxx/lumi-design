@@ -17,7 +17,7 @@ class ProductController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(ProductRepository $repository, Request $request)
     {
-        $pagination = $repository->paginateProduct($request->query->getInt('page', 1));
+        $pagination = $repository->paginateProductOrderByUpdatedAt($request->query->getInt('page', 1));
 
         return $this->render('admin/product/index.html.twig', [
             'products' => $pagination
@@ -42,12 +42,12 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) { //valid declenche la verification des erreurs
-            // $file = $form->get('thumbnailFile')->getData();
-
-            
 
             $em->persist($product);
             $em->flush();
+
+            $this->addFlash('success', 'Produit créé avec succès !');
+
 
             return $this->redirectToRoute('admin_product_index');
         }
@@ -55,5 +55,36 @@ class ProductController extends AbstractController
         return $this->render('admin/product/create.html.twig', [
             'productForm' => $form,
         ]);
+    }
+
+    #[Route('/update/{slug}', name: 'update', methods: ['GET', 'POST'])]
+    public function update(EntityManagerInterface $em, Request $request, Product $product): Response
+    {
+        $form = $this->createForm(ProductType::class, $product);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $em->flush();
+
+            $this->addFlash('success', 'Produit modifié avec succès');
+
+            return $this->redirectToRoute('admin_product_index');
+        }
+
+        return $this->render('admin/product/update.html.twig', [
+            'productForm' => $form,
+        ]);
+    }
+
+    #[Route('/delete/{id}', name: 'delete', methods: ['DELETE'])]
+    public function delete(EntityManagerInterface $em, Product $product): Response
+    {
+        $em->remove($product);
+        $em->flush();
+
+        $this->addFlash('danger', 'Produit supprimé avec succès');
+
+        return $this->redirectToRoute('admin_product_index');
     }
 }

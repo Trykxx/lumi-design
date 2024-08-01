@@ -1,0 +1,45 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+
+	{# <a href={{ path('admin_category_create')}} class='btn btn-warning'>Ajouter une catégorie</a> #}
+
+<h1 class="mb-3">Ajouter une catégorie</h1>
+
+		{{ form_start(categoryForm)}}
+		{{ form_rest(categoryForm)}}
+
+		<input type="submit" value="Ajouter" class="btn btn-primary">
+		{{ form_end(categoryForm)}}
+	<table class='table table-striped'>
+		<thead>
+			<tr>
+				{# <th>{{ knp_pagination_sortable(categories, '#', 'c.id')}}</th>
+				<th>{{ knp_pagination_sortable(categories, 'Nom de la catégorie', 'c.name')}}</th> #}
+				<th>Modifier</th>
+				<th>Supprimer</th>
+			</tr>
+		</thead>
+		{% for category in categories %}
+			<tr>
+				<td>{{category.id}}</td>
+				<td>
+                {{category.name}}
+				</td>
+				<td>
+					<a href={{ path('admin_category_index', { 'id': category.id } )}} class='btn btn-primary'>Modifier</a>
+				</td>
+				<td>
+					<form action={{ path('admin_category_index', { 'id':category.id } )}} method="POST">
+						<input type="hidden" name="_method" value="DELETE">
+						<input type="submit" class="btn btn-danger" value="Supprimer">
+					</form>
+				</td>
+			</tr>
+		{% endfor %}
+	</table>
+
+	{# <div class="navigation">
+		{{ knp_pagination_render(categories) }}
+	</div> #}
+{% endblock %}

@@ -53,7 +53,7 @@ class Product
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[Assert\NotBlank(message: "Le {{ label }} ne peut pas être vide.")]
-    #[ORM\ManyToOne(inversedBy: 'products')]
+    #[ORM\ManyToOne(inversedBy: 'products', cascade:['remove'])]
     private ?Category $category = null;
 
     #[ORM\PrePersist]
@@ -207,6 +207,12 @@ class Product
     public function setImageFile($imageFile)
     {
         $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
 
         return $this;
     }

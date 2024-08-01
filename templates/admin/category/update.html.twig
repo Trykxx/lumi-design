@@ -1,0 +1,17 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Modifier une catégorie
+{% endblock %}
+
+
+{% block body %}
+	<main class="container">
+		<h1 class="mb-3">Modifier une catégorie</h1>
+
+		{{ form_start(categoryForm)}}
+		{{ form_rest(categoryForm)}}
+
+		<input type="submit" value="Modifier" class="btn btn-primary">
+		{{ form_end(categoryForm)}}
+	</main>
+{% endblock %}

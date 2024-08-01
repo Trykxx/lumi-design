@@ -33,7 +33,7 @@ class ProductRepository extends ServiceEntityRepository
     {
         return $this->paginator->paginate(
             $this->createQueryBuilder('p')
-            ->orderBy('p.updatedAt', 'DESC'),
+            ->orderBy('p.updatedAt', 'ASC'),
             $page,
             10
         );

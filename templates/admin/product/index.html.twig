@@ -23,10 +23,13 @@
 				</td>
 				<td>{{product.updatedAt|date('d - m - Y')}}</td>
 				<td>
-					<a href="" class='btn btn-primary'>Modifier</a>
+					<a href={{ path('admin_product_update', { 'slug': product.slug } )}} class='btn btn-primary'>Modifier</a>
 				</td>
 				<td>
-					<a href="" class='btn btn-danger'>Supprimer</a>
+					<form action={{ path('admin_product_delete', { 'id':product.id } )}} method="POST">
+						<input type="hidden" name="_method" value="DELETE">
+						<input type="submit" class="btn btn-danger" value="Supprimer">
+					</form>
 				</td>
 			</tr>
 		{% endfor %}

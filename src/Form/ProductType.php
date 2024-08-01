@@ -40,17 +40,17 @@ class ProductType extends AbstractType
             ->add('imageFile', FileType::class, [
                 'label' => 'Ajouter une image',
                 'required' => false,
-                'mapped' => false,
-                'constraints' => [
-                    new Assert\File([
-                        'mimeTypes' => [
-                            'image/jpeg',
-                            'image/png',
-                            'image/gif',
-                        ],
-                        'mimeTypesMessage' => 'Veuillez télécharger une image valide (JPEG, PNG, GIF)',
-                    ])
-                ],
+                // 'mapped' => false,
+                // 'constraints' => [
+                //     new Assert\File([
+                //         'mimeTypes' => [
+                //             'image/jpeg',
+                //             'image/png',
+                //             'image/gif',
+                //         ],
+                //         'mimeTypesMessage' => 'Veuillez télécharger une image valide (JPEG, PNG, GIF)',
+                //     ])
+                // ],
             ])
             ->add(
                 'price',
