@@ -32,4 +32,11 @@ class HomeController extends AbstractController
             'product' => $product,
         ]);
     }
+
+    #[Route('/conditions', name: 'conditions')]
+    public function conditions(){
+
+        return $this->render('front/registration/conditions.html.twig');
+    }
+
 }

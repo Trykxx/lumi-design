@@ -1,0 +1,30 @@
+{% extends "front/base.html.twig" %}
+
+{% block title %}
+	<title>Inscription</title>
+{% endblock %}
+
+
+{% block body %}
+	{% for flash_error in app.flashes('verify_email_error') %}
+		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+	{% endfor %}
+
+	<h1>Inscription</h1>
+
+	{{ form_errors(registrationForm) }}
+
+	{{ form_start(registrationForm) }}
+	{{ form_row(registrationForm.email) }}
+	{{ form_row(registrationForm.plainPassword, {label: 'Mot de passe'}) }}
+
+	{{ form_widget(registrationForm.agreeTerms, {
+                label_html: true,
+                label: '<a href="' ~ path('front_home_conditions') ~ '" target="_blank">' ~ 'Accepter les conditions d\'utilisation'|trans ~ '</a>'
+            }) }}
+            {{ form_errors(registrationForm.agreeTerms) }}
+
+
+	<button type="submit" class="btn btn-primary">Inscription</button>
+	{{ form_end(registrationForm) }}
+{% endblock %}
