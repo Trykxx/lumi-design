@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\UX\Dropzone\Form\DropzoneType;
 
 class ProductType extends AbstractType
 {
@@ -37,20 +38,9 @@ class ProductType extends AbstractType
                     'required' => false
                 ],
             )
-            ->add('imageFile', FileType::class, [
+            ->add('imageFile', DropzoneType::class, [
                 'label' => 'Ajouter une image',
                 'required' => false,
-                // 'mapped' => false,
-                // 'constraints' => [
-                //     new Assert\File([
-                //         'mimeTypes' => [
-                //             'image/jpeg',
-                //             'image/png',
-                //             'image/gif',
-                //         ],
-                //         'mimeTypesMessage' => 'Veuillez télécharger une image valide (JPEG, PNG, GIF)',
-                //     ])
-                // ],
             ])
             ->add(
                 'price',

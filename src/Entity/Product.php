@@ -53,7 +53,8 @@ class Product
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[Assert\NotBlank(message: "Le {{ label }} ne peut pas être vide.")]
-    #[ORM\ManyToOne(inversedBy: 'products', cascade:['remove'])]
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private ?Category $category = null;
 
     #[ORM\PrePersist]

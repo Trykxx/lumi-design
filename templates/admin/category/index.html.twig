@@ -14,8 +14,8 @@
 	<table class='table table-striped'>
 		<thead>
 			<tr>
-				{# <th>{{ knp_pagination_sortable(categories, '#', 'c.id')}}</th>
-				<th>{{ knp_pagination_sortable(categories, 'Nom de la catégorie', 'c.name')}}</th> #}
+				<th>#</th>
+				<th>Nom</th>
 				<th>Modifier</th>
 				<th>Supprimer</th>
 			</tr>
@@ -30,7 +30,7 @@
 					<a href={{ path('admin_category_index', { 'id': category.id } )}} class='btn btn-primary'>Modifier</a>
 				</td>
 				<td>
-					<form action={{ path('admin_category_index', { 'id':category.id } )}} method="POST">
+					<form action={{ path('admin_category_delete', { 'id':category.id } )}} method="POST">
 						<input type="hidden" name="_method" value="DELETE">
 						<input type="submit" class="btn btn-danger" value="Supprimer">
 					</form>
