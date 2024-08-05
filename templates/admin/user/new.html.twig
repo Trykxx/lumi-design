@@ -1,0 +1,15 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}
+	<title>Hello</title>
+{% endblock %}
+
+{% block body %}
+	<h1>Créer un utilisateur administrateur</h1>
+
+	{{ form_start(adminUserForm) }}
+	{{ form_rest(adminUserForm) }}
+	<button type="submit" class="btn btn-primary">Créer</button>
+	{{ form_end(adminUserForm) }}
+
+{% endblock %}

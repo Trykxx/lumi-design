@@ -1,0 +1,48 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}
+	Hello
+{% endblock %}
+
+{% block body %}
+	<h1>Liste d'utilisateurs</h1>
+
+	<table class='table table-striped'>
+		<thead>
+			<tr>
+				<th>{{ knp_pagination_sortable(users, '#', 'u.id')}}</th>
+				<th>{{ knp_pagination_sortable(users, 'Email', 'u.email')}}</th>
+				<th>{{ knp_pagination_sortable(users, 'Prenom', 'u.firstName')}}</th>
+				<th>{{ knp_pagination_sortable(users, 'Nom', 'u.lastName')}}</th>
+				<th>Modifier</th>
+				{# <th>Supprimer</th> #}
+			</tr>
+		</thead>
+		{% for user in users %}
+			<tr>
+				<td>{{user.id}}</td>
+				<td>
+					<a href={{ path('admin_user_show', { 'id': user.id } )}}>{{user.email}}</a>
+				</td>
+				<td>
+					{{user.firstName}}
+				</td>
+				<td>
+					{{user.lastName}}
+				</td>
+				<td>
+					<a href={{ path('admin_user_update', { 'id': user.id } )}} class='btn btn-primary'>Modifier</a>
+				</td>
+				{# <td>
+																	<form action={{ path('admin_category_delete', { 'id':category.id } )}} method="POST">
+																		<input type="hidden" name="_method" value="DELETE">
+																		<input type="submit" class="btn btn-danger" value="Supprimer">
+																	</form>
+																</td> #}
+			</tr>
+		{% endfor %}
+	</table>
+
+	{{ knp_pagination_render(users)}}
+
+{% endblock %}

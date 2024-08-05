@@ -1,0 +1,27 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	Détails du produit
+{% endblock %}
+
+{% block body %}
+	{% if user is not null %}
+
+		<h1>Détails de l'utilisateur</h1>
+
+		<div>
+            <p><strong>Id : </strong>{{ user.id }}</p>
+            <p><strong>Email : </strong>{{ user.email }}</p>
+            <p><strong>Prenom : </strong>{{ user.firstName }}</p>
+            <p><strong>Nom de famille : </strong>{{ user.lastName }}</p>
+            <p><strong>Adresse : </strong>{{ user.address | default('N/A') }}</p>
+            <p><strong>Code Postal : </strong>{{ user.zipCode | default('N/A') }}</p>
+            <p><strong>Ville : </strong>{{ user.city | default('N/A') }}</p>
+            <p><strong>Numéro de téléphone : </strong>{{ user.phoneNumber | default('N/A') }}</p>
+            <p><strong>Actif : </strong>{{ user.isActive ? 'Oui' : 'Non' }}</p>
+            <p><strong>Vérifié : </strong>{{ user.isVerified ? 'Oui' : 'Non' }}</p>
+            <p><strong>Date de création : </strong>{{ user.createdAt ? user.createdAt|date('d/m/Y H:i:s') : 'N/A' }}</p>
+        </div>
+	{% endif %}
+{% endblock %}
