@@ -24,6 +24,7 @@
 						{{ product.category.name ?? 'N/A' }}</p>
 
 					<a href={{ path('front_home_index') }} class="btn btn-primary">Retour à l'accueil</a>
+					<a href={{ path('front_cart_add', { 'id': product.id}) }} class="btn btn-warning">Ajouter au panier</a>
 				</div>
 			</div>
 		</div>
