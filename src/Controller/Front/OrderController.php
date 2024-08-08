@@ -19,12 +19,17 @@ class OrderController extends AbstractController
 {
 
     #[IsGranted('IS_AUTHENTICATED')]
-    #[Route(path: '/', name: 'index')]
+    #[Route(path: '/', name: 'index', methods: ['GET'])]
     public function index(EntityManagerInterface $em,CartService $cartService, OrderService $orderService)
     {
         // $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         $user = $this->getUser();
         $cart = $cartService->getCart();
+
+        if (empty($cart)) {
+            $this->addFlash('warning', 'Votre panier est vide');
+            return $this->redirectToRoute('front_cart_index');
+        }
 
         $order = $orderService->createOrder($user, $cart);
 
@@ -34,6 +39,14 @@ class OrderController extends AbstractController
         $cartService->clearCart();
 
         $this->addFlash('success', 'Commande effectué avec succès');
-        return $this->redirectToRoute('front_home_index');
+        return $this->redirectToRoute('front_order_confirmation', ['id' => $order->getId()]);
+    }
+
+    #[Route('/confirmation/{id}', name: 'confirmation', methods: ['GET'])]
+    public function confirmation(Orders $order)
+    {
+        return $this->render('front/order/confirmation.html.twig', [
+            'order' => $order,
+        ]);
     }
 }

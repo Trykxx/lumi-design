@@ -33,10 +33,9 @@ final class OrdersFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'createdAt' => \DateTimeImmutable::createFromMutable(self::faker()->dateTimeBetween('-3 years')),
+            // 'createdAt' => \DateTimeImmutable::createFromMutable(self::faker()->dateTimeBetween('-3 years')),
             'paidAt' => \DateTimeImmutable::createFromMutable(self::faker()->dateTimeBetween('-3 years')),
             'customer' => UserFactory::new(),
-            'orderNumber' => strtoupper(self::faker()->unique()->bothify('??-#######')),
             'status' => self::faker()->randomElement(OrdersStatus::cases()),
         ];
     }
@@ -47,7 +46,7 @@ final class OrdersFactory extends PersistentProxyObjectFactory
     protected function initialize(): static
     {
         return $this
-            // ->afterInstantiate(function(Orders $orders): void {})
+            ->afterInstantiate(function(Orders $orders): void {})
         ;
     }
 }

@@ -14,7 +14,7 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        
+        UserFactory::createMany(10);
         CategoryFactory::createMany(5); //cb j'en cree
         ProductFactory::createMany(100, function ()
          {
@@ -22,7 +22,6 @@ class AppFixtures extends Fixture
                 'category' => CategoryFactory::random(), // Ceci assignera une catégorie aléatoire existante
             ];
         });
-        UserFactory::createMany(10);
         OrdersFactory::createMany(10, function () {
             return [
                 'customer' => UserFactory::random(),
