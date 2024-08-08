@@ -7,47 +7,46 @@
 	<h1>Panier</h1>
 
 	{# {% if dataCart is empty %}
-		<p>Votre panier est vide.</p>
-	{% else %} #}
-		<table class="table">
-			<thead>
+			<p>Votre panier est vide.</p>
+		{% else %} #}
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Produit</th>
+				<th>Prix</th>
+				<th>Quantité</th>
+				<th>Total</th>
+				<th>Actions</th>
+				<th>Supprimer</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for data in dataCart %}
 				<tr>
-					<th>Produit</th>
-					<th>Prix</th>
-					<th>Quantité</th>
-					<th>Total</th>
-					<th>Actions</th>
-					<th>Supprimer</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for data in dataCart %}
-					<tr>
-						<td>{{ data.product.name }}</td>
-						<td>{{ data.product.price|number_format(2, '.', ',') }}
-							€</td>
-						<td>{{ data.quantity }}</td>
-						<td>{{ data.total }}
-							€</td>
-						<td>
-							<a href={{path('front_cart_add', {id: data.product.id} ) }} class="btn btn-warning btn-sm">+</a>
-							<a href={{path('front_cart_decrease', {id: data.product.id} )}} class="btn btn-danger btn-sm">-</a>
-						</td>
-						<td>
-							<a href={{ path('front_cart_remove', {id: data .product.id} ) }} class="btn btn-danger btn-sm">Supprimer</a>
-						</td>
-					</tr>
-				{% endfor %}
-				<tr>
-					<td colspan='4'>Total</td>
-					<td>€</td>
+					<td>{{ data.product.name }}</td>
+					<td>{{ data.product.price}}€</td>
+					<td>{{ data.quantity }}</td>
+					<td>{{ data.total }}€</td>
 					<td>
-						<a href={{ path('front_cart_clear') }}>Vider le panier</a>
+						<a href={{path('front_cart_add', {id: data.product.id} ) }} class="btn btn-warning btn-sm">+</a>
+						<a href={{path('front_cart_decrease', {id: data.product.id} )}} class="btn btn-danger btn-sm">-</a>
+					</td>
+					<td>
+						<a href={{ path('front_cart_remove', {id: data .product.id} ) }} class="btn btn-danger btn-sm">Supprimer</a>
 					</td>
 				</tr>
-			</tbody>
-			<tfoot>
-			</tfoot>
-		</table>
+			{% endfor %}
+			<tr>
+				<td colspan='3'>Total</td>
+				<td>{{total}}€</td>
+				<td>
+					<a href={{ path('front_cart_clear') }}>Vider le panier</a>
+				</td>
+			</tr>
+
+		</tbody>
+		<tfoot></tfoot>
+	</table>
+					<a href={{ path('front_order_index') }} class='btn btn-warning'>Commander</a>
 	{# {% endif %} #}
 {% endblock %}

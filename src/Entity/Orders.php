@@ -2,12 +2,16 @@
 
 namespace App\Entity;
 
+use App\Enum\OrdersStatus;
 use App\Repository\OrdersRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
 #[ORM\Entity(repositoryClass: OrdersRepository::class)]
+#[HasLifecycleCallbacks]
 class Orders
 {
     #[ORM\Id]
@@ -24,6 +28,9 @@ class Orders
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $paidAt = null;
 
+    #[ORM\Column(type: 'string', enumType: OrdersStatus::class)]
+    private OrdersStatus $status = OrdersStatus::PENDING;
+
     #[ORM\ManyToOne(inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $customer = null;
@@ -31,12 +38,17 @@ class Orders
     /**
      * @var Collection<int, OrderItem>
      */
-    #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'orders', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'orders', orphanRemoval: true, cascade:['persist'])]
     private Collection $orderItems;
 
     public function __construct()
     {
         $this->orderItems = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    public function createdAtValue(){
+        $this->createdAt = new DateTimeImmutable;
     }
 
     public function getId(): ?int
@@ -80,6 +92,18 @@ class Orders
         return $this;
     }
 
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function setStatus($status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
     public function getCustomer(): ?User
     {
         return $this->customer;
@@ -95,12 +119,12 @@ class Orders
     /**
      * @return Collection<int, OrderItem>
      */
-    public function getOrderItem(): Collection
+    public function getOrderItems(): Collection
     {
         return $this->orderItems;
     }
 
-    public function addOrderItems(OrderItem $orderItem): static
+    public function addOrderItem(OrderItem $orderItem): static
     {
         if (!$this->orderItems->contains($orderItem)) {
             $this->orderItems->add($orderItem);

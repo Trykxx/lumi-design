@@ -16,11 +16,11 @@ class CartController extends AbstractController
     #[Route('/panier', name: 'index')]
     public function index(CartService $cartService): Response
     {
-        $dataCart = $cartService->getCartContent();
+        $data = $cartService->getCartContent();
 
         return $this->render('front/cart/index.html.twig', [
-            // 'dataCart' => $data[$dataCart],
-            // 'total' => $data[$totalCart],
+            'dataCart' => $data['dataCart'],
+            'total' => $data['total'],
         ]);
     }
 

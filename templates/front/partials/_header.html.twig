@@ -28,10 +28,12 @@
 						<li class="nav-item">
 							<a class="nav-link" href={{ path('front_login_login')}}>Connexion</a>
 						</li>
-
 					{% endif %}
+					<li class="nav-item">
+						<a class="nav-link" href={{ path('front_cart_index')}}>Panier</a>
+					</li>
 
-
+					{# {{ app.user.email }} #}
 				</ul>
 			</div>
 		</div>
