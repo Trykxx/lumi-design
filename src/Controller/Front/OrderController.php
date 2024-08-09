@@ -4,6 +4,7 @@ namespace App\Controller\Front;
 
 use App\Entity\OrderItem;
 use App\Entity\Orders;
+use App\Repository\OrdersRepository;
 use App\Repository\ProductRepository;
 use App\Service\CartService;
 use App\Service\OrderService;
@@ -43,8 +44,10 @@ class OrderController extends AbstractController
     }
 
     #[Route('/confirmation/{id}', name: 'confirmation', methods: ['GET'])]
-    public function confirmation(Orders $order)
+    public function confirmation(Orders $order, OrdersRepository $repository, int $id)
     {
+        $order = $repository->findOrderWithRelations($id);
+
         return $this->render('front/order/confirmation.html.twig', [
             'order' => $order,
         ]);
